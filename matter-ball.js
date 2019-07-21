@@ -38,7 +38,7 @@ function create() {
     console.log(ball)
 
     container.setSize(128, 64);
-    var physicsContainer = this.physics.matter.add.gameObject(container);
+    var physicsContainer = this.matter.add.gameObject(container);
 
     // MatterPhysics.Bodies.rectangle(200, 100, 60, 60, { frictionAir: 0.001 }),
     // MatterPhysics.Bodies.rectangle(400, 100, 60, 60, { frictionAir: 0.05 }),
