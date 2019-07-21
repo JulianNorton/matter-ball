@@ -3,6 +3,7 @@
 
 <head>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.18.1/dist/phaser-arcade-physics.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/matter-js@0.14.2/build/matter.min.js"></script>
 </head>
 
 <body>
@@ -28,6 +29,8 @@
             }
         };
 
+        
+
         var game = new Phaser.Game(config);
 
         function preload() {
@@ -35,26 +38,22 @@
         }
         
         function create() {
+            
+            // Matter.world.setBounds(0, -200, 400, 400);
             this.add.image(100, 100, 'placeholder');
-            // logo.setCollideWorldBounds(true);
             this.add.image(50, 50, '');
 
-            var ground = this.add.rectangle(250, 380, 200, 5, { isStatic: true })
-            var ball = this.add.circle(300, 300, 50, 0)
+            var rectangle = this.add.rectangle(250, 380, 200, 5, { isStatic: true })
+            var ball = this.add.circle(300, 100, 30, 1)
+            console.log(ball)
+            Matter.Grid.create();
 
-            const groundLayer = ""
-            // const tileset = map.addTilesetImage("kenney-tileset-64px-extruded");
-            // const groundLayer = map.createDynamicLayer("Ground", tileset, 0, 0);
-            // const lavaLayer = map.createDynamicLayer("Lava", tileset, 0, 0);
         }
 
         function update() {
             // cursors = this.input.keyboard.createCursorKeys();
-            // todo -- add stuff 
             // if (cursors.spacebar.isDown) {
                 // player.setVelocityX(-160);
-
-                // player.anims.play('spacebar', true);
             // }
         }
     </script>
@@ -62,3 +61,5 @@
 </body>
 
 </html>
+
+

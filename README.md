@@ -10,5 +10,6 @@
 
 ## todo
 
+read https://github.com/liabru/matter-js/wiki/Getting-started
 read https://github.com/liabru/matter-js/blob/master/examples/events.js
 read https://code.tutsplus.com/tutorials/getting-started-with-matterjs-body-module--cms-28835
