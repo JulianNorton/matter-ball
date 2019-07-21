@@ -12,8 +12,15 @@
             type: Phaser.AUTO,
             width: 400,
             height: 400,
+            backgroundColor: "#666666",
             physics: {
                 default: 'matter',
+                matter : {
+                    debug: true,
+                    gravity: { y: .5},
+                    enableSleep: true,
+                    showAngleIndicator: true,
+                }
             },
             scene: {
                 preload: preload,
@@ -24,16 +31,31 @@
         var game = new Phaser.Game(config);
 
         function preload() {
+            this.load.image('placeholder', 'assets/placeholder-image.png');
         }
-
+        
         function create() {
+            this.add.image(100, 100, 'placeholder');
             // logo.setCollideWorldBounds(true);
+            this.add.image(50, 50, '');
 
+            var ground = this.add.rectangle(250, 380, 200, 5, { isStatic: true })
+            var ball = this.add.circle(300, 300, 50, 0)
+
+            const groundLayer = ""
+            // const tileset = map.addTilesetImage("kenney-tileset-64px-extruded");
+            // const groundLayer = map.createDynamicLayer("Ground", tileset, 0, 0);
+            // const lavaLayer = map.createDynamicLayer("Lava", tileset, 0, 0);
         }
 
         function update() {
-            cursors = this.input.keyboard.createCursorKeys();
+            // cursors = this.input.keyboard.createCursorKeys();
             // todo -- add stuff 
+            // if (cursors.spacebar.isDown) {
+                // player.setVelocityX(-160);
+
+                // player.anims.play('spacebar', true);
+            // }
         }
     </script>
 
