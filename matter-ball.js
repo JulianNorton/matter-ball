@@ -34,9 +34,11 @@ function create() {
 
     var rectangle = this.add.rectangle(250, 380, 200, 5, { isStatic: true })
     var ball = this.add.circle(300, 100, 30, 1)
+    console.log(image1)
+    console.log(ball)
 
     container.setSize(128, 64);
-    var physicsContainer = this.matter.add.gameObject(container);
+    var physicsContainer = this.physics.matter.add.gameObject(container);
 
     // MatterPhysics.Bodies.rectangle(200, 100, 60, 60, { frictionAir: 0.001 }),
     // MatterPhysics.Bodies.rectangle(400, 100, 60, 60, { frictionAir: 0.05 }),
