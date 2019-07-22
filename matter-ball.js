@@ -1,7 +1,7 @@
 var config = {
     type: Phaser.AUTO,
-    width: 400,
-    height: 400,
+    width: 800,
+    height: 600,
     backgroundColor: "#666666",
     parent: 'game-container',
     physics: {
@@ -15,10 +15,12 @@ var config = {
     },
     scene: {
         preload: preload,
-        create: create
+        create: create,
+        update: update,
     }
 };
-
+var player;
+var cursors;
 var game = new Phaser.Game(config);
 
 function preload() {
@@ -26,35 +28,49 @@ function preload() {
 }
 
 function create() {
+    this.scoreText = this.add.text(32, 32, 'Press spacebar for another ball', { fontSize: '1rem', fill: 'red' });
 
-    var image1 = this.add.image(100, 100, 'placeholder');
-    var image2 = this.add.image(50, 50, '');
 
-    container = this.add.container(100, 100, [image1, image2]);
+    // Set boundries
+    // floor
+    this.matter.add.rectangle(300, 550, 600, 40, { isStatic: true });
+    // right
+    this.matter.add.rectangle(700, 300, 20, 600, { isStatic: true });
+    // left
+    this.matter.add.rectangle(0, 300, 20, 600, { isStatic: true });
 
-    var rectangle = this.add.rectangle(250, 380, 200, 5, { isStatic: true })
-    var ball = this.add.circle(300, 100, 30, 1)
-    console.log(image1)
-    console.log(ball)
 
-    container.setSize(128, 64);
-    var physicsContainer = this.matter.add.gameObject(container);
+    // Soccerball
+    ball = this.matter.add.circle(100,50,32,0);
 
-    // MatterPhysics.Bodies.rectangle(200, 100, 60, 60, { frictionAir: 0.001 }),
-    // MatterPhysics.Bodies.rectangle(400, 100, 60, 60, { frictionAir: 0.05 }),
-    // MatterPhysics.Bodies.rectangle(600, 100, 60, 60, { frictionAir: 0.1 }),
+    // Player settings
+    player = this.matter.add.image(200, 200, 'placeholder').setScale(.25,5);
+    // player.setFixedRotation();
+    player.setAngle(270);
+    player.setFrictionAir(.9);
+    player.setMass(50);
 
-    // // m/ walls
-    // MatterPhysics.Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
-    // MatterPhysics.Bodies.rectangle(400, 600, 800, 50, { isStatic: true }),
-    // MatterPhysics.Bodies.rectangle(800, 300, 50, 600, { isStatic: true }),
-    // MatterPhysics.Bodies.rectangle(0, 300, 50, 600, { isStatic: true })
-
+    // Set-up keyboard input
+    cursors = this.input.keyboard.createCursorKeys();
+    
 }
 
 function update() {
-    // cursors = this.input.keyboard.createCursorKeys();
-    // if (cursors.spacebar.isDown) {
-    // player.setVelocityX(-160);
-    // }
+    if (cursors.left.isDown) {
+        player.thrustLeft(1.5);
+    }
+    else if (cursors.right.isDown) {
+        player.thrustRight(1.5);
+    }
+
+    if (cursors.up.isDown) {
+        player.thrust(1.5);
+    }
+    else if (cursors.down.isDown) {
+        player.thrustBack(1.5);
+    }
+    // ms delay on adding circle
+    if (this.input.keyboard.checkDown(cursors.space, 500)) {
+        this.matter.add.circle(100, 50, 32, 0);
+    }
 }
