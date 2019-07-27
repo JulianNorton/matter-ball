@@ -28,7 +28,9 @@ function preload() {
 }
 
 function create() {
-    this.scoreText = this.add.text(32, 32, 'Press spacebar for another ball', { fontSize: '1rem', fill: 'red' });
+    this.socket = io();
+
+    this.helpText = this.add.text(32, 32, 'Press spacebar for another ball', { fontSize: '1rem', fill: 'red' });
 
 
     // Set boundries
