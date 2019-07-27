@@ -8,7 +8,7 @@ var config = {
         default: 'matter',
         matter: {
             debug: true,
-            gravity: { y: .5 },
+            gravity: { y: .1 },
             wireframes: true,
             showAngleIndicator: true,
         }
