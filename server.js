@@ -10,7 +10,7 @@ app.get('/', function (req, res) {
 });
 
 io.on('connection', function (socket) {
-    console.log('+ Connected established');
+    console.log('+ Connected established', [socket.id]);
 
     // create a new player and add it to our players object
     players[socket.id] = {
@@ -26,12 +26,15 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('newPlayer', players[socket.id]);
 
     socket.on('disconnect', function () {
-        console.log('- Disconnect detected');
+        console.log('- Disconnect detected', [socket.id]);
+        // remove this player from our players object
+        delete players[socket.id];
+        // emit a message to all players to remove this player
+        io.emit('disconnect', socket.id);
     });
 });
 
 var players = {}
-
 
 server.listen(8081, function () {
     console.log(`Listening on ${server.address().port}`);
