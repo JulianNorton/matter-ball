@@ -1,3 +1,4 @@
+
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -65,55 +66,90 @@ function create() {
     // Soccerball
     ball = this.matter.add.circle(100,50,32,0);
 
-    // Player settings
-    player = this.matter.add.image(200, 200, 'placeholder').setScale(1,1);
-    // player.setFixedRotation();
-    player.setAngle(270);
-    player.setFrictionAir(.2);
-    player.setMass(20);
-
     // Set-up keyboard input
     cursors = this.input.keyboard.createCursorKeys();
+
+    this.socket.on('playerMoved', function (playerInfo) {
+        self.otherPlayers.getChildren().forEach(function (otherPlayer) {
+            if (playerInfo.playerId === otherPlayer.playerId) {
+                otherPlayer.setRotation(playerInfo.rotation);
+                otherPlayer.setPosition(playerInfo.x, playerInfo.y);
+            }
+        });
+    });
     
 }
 
 function update() {
-    if (cursors.left.isDown) {
-        player.thrustLeft(.5);
-    }
-    else if (cursors.right.isDown) {
-        player.thrustRight(.5);
-    }
 
-    if (cursors.up.isDown) {
-        player.thrust(.5);
-    }
-    else if (cursors.down.isDown) {
-        player.thrustBack(.5);
-    }
     // ms delay on adding circle
     if (this.input.keyboard.checkDown(cursors.space, 500)) {
         this.matter.add.circle(100, 50, 32, 0);
     }
+
+    if (this.ship) {
+        // emit player movement
+        var x = this.ship.x;
+        var y = this.ship.y;
+        var r = this.ship.rotation;
+        if (this.ship.oldPosition && (x !== this.ship.oldPosition.x || y !== this.ship.oldPosition.y || r !== this.ship.oldPosition.rotation)) {
+            this.socket.emit('playerMovement', { x: this.ship.x, y: this.ship.y, rotation: this.ship.rotation });
+        }
+
+        // save old position data
+        this.ship.oldPosition = {
+            x: this.ship.x,
+            y: this.ship.y,
+            rotation: this.ship.rotation
+        };
+        if (cursors.left.isDown) {
+            // this.ship.setAngularVelocity(-.1);
+            this.ship.thrustLeft(.01);
+        } else if (cursors.right.isDown) {
+            // this.ship.setAngularVelocity(.01);
+            this.ship.thrustRight(.01);
+        } else {
+            // this.ship.setAngularVelocity(0);
+        }
+        
+        if (cursors.up.isDown) {
+            // this.ship.setAngularVelocity(0);
+            this.ship.thrust(.01);
+        } else if (cursors.down.isDown) {
+            this.ship.thrustBack(.01)
+        }
+
+    }
+
+
 }
 
 function addPlayer(self, playerInfo) {
-    // player = this.matter.add.image(200, 200, 'placeholder').setScale(1, 1);
 
-    self.ship = self.matter.add.image(playerInfo.x, playerInfo.y, 'placeholder').setOrigin(0.5, 0.5).setDisplaySize(60, 40);
+    // player = this.matter.add.image(200, 200, 'placeholder').setScale(1,1);
+    self.ship = self.matter.add.image(playerInfo.x, playerInfo.y, 'placeholder').setOrigin(0.5, 0.5).setDisplaySize(50, 50);
+    self.ship.setFixedRotation();
+    self.ship.setAngle(270);
+    self.ship.setMass(1);
+    self.ship.setFrictionAir(.2);
+    // // player.setFixedRotation();
+    // player.setAngle(270);
+    // player.setMass(20);
+    
     if (playerInfo.team === 'team_one') {
-        self.ship.setTint(0x00ffff);
+        self.ship.setTint(0x00ff00);
     } else {
-        self.ship.setTint(0xff0000);
+        self.ship.setTint(0xffff00);
     }
 }
 
 function addOtherPlayers(self, playerInfo) {
-    const otherPlayer = self.matter.add.image(playerInfo.x, playerInfo.y, 'placeholder').setOrigin(0.5, 0.5).setDisplaySize(53, 40);
+    const otherPlayer = self.matter.add.image(playerInfo.x, playerInfo.y, 'placeholder').setOrigin(0.5, 0.5).setDisplaySize(50, 50);
+    
     if (playerInfo.team === 'team_one') {
-        otherPlayer.setTint(0xff00ff);
+        otherPlayer.setTint(0xffffff);
     } else {
-        otherPlayer.setTint(0xffff00);
+        otherPlayer.setTint(0x000000);
     }
     otherPlayer.playerId = playerInfo.playerId;
     self.otherPlayers.add(otherPlayer);
