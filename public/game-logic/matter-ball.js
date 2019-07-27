@@ -56,7 +56,7 @@ function create() {
 
     this.matter.world.setBounds().disableGravity();
 
-    this.helpText = this.add.text(32, 32, 'Press spacebar for another ball', { fontSize: '1rem', fill: 'red' });
+    // this.helpText = this.add.text(32, 32, 'Press spacebar for another ball', { fontSize: '1rem', fill: 'red' });
 
     // Set boundries
     // floor
@@ -83,9 +83,9 @@ function create() {
 function update() {
 
     // ms delay on adding circle
-    if (this.input.keyboard.checkDown(cursors.space, 500)) {
-        this.matter.add.circle(100, 50, 32, 0);
-    }
+    // if (this.input.keyboard.checkDown(cursors.space, 500)) {
+        // this.matter.add.circle(100, 50, 32, 0);
+    // }
 
     if (this.ship) {
         // emit player movement
@@ -103,17 +103,14 @@ function update() {
             rotation: this.ship.rotation
         };
         if (cursors.left.isDown) {
-            // this.ship.setAngularVelocity(-.1);
             this.ship.thrustLeft(.01);
         } else if (cursors.right.isDown) {
-            // this.ship.setAngularVelocity(.01);
             this.ship.thrustRight(.01);
         } else {
-            // this.ship.setAngularVelocity(0);
+            this.ship.setAngularVelocity(0);
         }
         
         if (cursors.up.isDown) {
-            // this.ship.setAngularVelocity(0);
             this.ship.thrust(.01);
         } else if (cursors.down.isDown) {
             this.ship.thrustBack(.01)
@@ -132,9 +129,6 @@ function addPlayer(self, playerInfo) {
     self.ship.setAngle(270);
     self.ship.setMass(1);
     self.ship.setFrictionAir(.2);
-    // // player.setFixedRotation();
-    // player.setAngle(270);
-    // player.setMass(20);
     
     if (playerInfo.team === 'team_one') {
         self.ship.setTint(0x00ff00);
