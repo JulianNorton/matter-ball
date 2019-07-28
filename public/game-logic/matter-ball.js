@@ -84,7 +84,7 @@ function update() {
 
     // ms delay on adding circle
     // if (this.input.keyboard.checkDown(cursors.space, 500)) {
-        // this.matter.add.circle(100, 50, 32, 0);
+    //     this.matter.add.circle(100, 50, 32, 0);
     // }
 
     if (this.ship) {
@@ -114,6 +114,11 @@ function update() {
             this.ship.thrust(.01);
         } else if (cursors.down.isDown) {
             this.ship.thrustBack(.01)
+        }
+
+        // I NEED HELP HERE!
+        if (this.input.keyboard.checkDown(cursors.space, 500)) {
+            this.ship.setScale(3, 3);
         }
 
     }
