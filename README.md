@@ -1,7 +1,7 @@
 # matter-ball
  Testing physics based ball game
  
- # Demo: https://juliannorton.github.io/matter-ball/
+ # Demo: https://testing-matter-ball.herokuapp.com
 
 ## Set up
 
