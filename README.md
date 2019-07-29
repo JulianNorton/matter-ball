@@ -6,8 +6,7 @@
 ## Set up
 
 1. `npm install`
-2. `node server.js`
-3. http://localhost:8081/
+2. `node index.js`
 
 
 ## todo
