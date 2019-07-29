@@ -3,6 +3,7 @@ var config = {
     parent: 'phaser-example',
     width: 800,
     height: 600,
+    backgroundColor: "#666666",
     physics: {
         default: 'matter',
         matter: {
@@ -30,7 +31,7 @@ function preload() {
 function create() {
     var self = this;
     this.socket = io();
-    this.otherPlayers = this.add.group();
+    this.players = this.add.group();
     
     this.socket.on('currentPlayers', function (players) {
         Object.keys(players).forEach(function (id) {

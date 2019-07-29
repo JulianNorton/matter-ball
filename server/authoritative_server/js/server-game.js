@@ -84,9 +84,9 @@ function update() {
         }
         
         if (input.up) {
-            this.physics.velocityFromRotation(player.rotation + 1.5, 200, player.body.acceleration);
+            // TODO FIX THIS
         } else if (input.down) {
-            player.thrustDown(.01);
+            // player.thrustDown(.01); TODO FIX THIS
         } else {
             // pass
         }
