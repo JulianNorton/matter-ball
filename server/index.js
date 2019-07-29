@@ -16,7 +16,7 @@ app.get('/', function (req, res) {
 });
 
 function setupAuthoritativePhaser() {
-  JSDOM.fromFile(path.join(__dirname, 'authoritative_server/server-index.html'), {
+  JSDOM.fromFile(path.join(__dirname, 'authoritative_server/index.html'), {
     // To run the scripts in the html file
     runScripts: "dangerously",
     // Also load supported external resources
