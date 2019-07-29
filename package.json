@@ -2,7 +2,7 @@
   "name": "matterball",
   "version": "1.0.0",
   "description": "Testing physics based ball game",
-  "main": "server.js",
+  "main": "index.js",
   "dependencies": {
     "canvas": "^2.5.0",
     "connect": "^3.7.0",
