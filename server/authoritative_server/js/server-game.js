@@ -3,7 +3,7 @@ const players = {};
 const config = {
     type: Phaser.HEADLESS,
     parent: 'phaser-example',
-    width: 800,
+    width: 600,
     height: 600,
     physics: {
         default: 'matter',
@@ -70,6 +70,19 @@ function create() {
             handlePlayerInput(self, socket.id, inputData);
         });
     });
+
+    this.matter.world.setBounds().disableGravity();
+    // Create an obstacle
+    this.matter.add.rectangle(100, 550, 300, 300, { isStatic: false, mass: 1 });
+    this.matter.add.circle(100, 550, 10, { mass: 1 });
+    
+    // this.matter.add.circle(100, 100, 50, 10, { mass: 1 });
+    // Soccerball -- TODO -- unify this
+    // this.matter.add.circle(100, 100, 50, 10, { mass: 1 });
+    // var ball = self.matter.add.circle(100, 100, 20, 100)
+    // this.matter.setMass(ball, .2);
+    // ball.set(ball, mass, 1 )
+    // this.matter.ball.setMass(20)
 }
 
 function update() {
@@ -84,9 +97,9 @@ function update() {
         }
         
         if (input.up) {
-            // TODO FIX THIS
+            player.thrust(.01);
         } else if (input.down) {
-            // player.thrustDown(.01); TODO FIX THIS
+                player.thrustBack(.01);
         } else {
             // pass
         }

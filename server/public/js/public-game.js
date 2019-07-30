@@ -1,7 +1,7 @@
 var config = {
     type: Phaser.AUTO,
     parent: 'phaser-example',
-    width: 800,
+    width: 600,
     height: 600,
     backgroundColor: "#666666",
     physics: {
@@ -69,10 +69,11 @@ function create() {
     
     this.matter.world.setBounds().disableGravity();
     // Create an obstacle
-    this.matter.add.rectangle(100, 550, 300, 300, { isStatic: true });
-    
+    this.matter.add.rectangle(100, 550, 300, 300, { isStatic: false, mass: 1 });
+    this.matter.add.circle(100, 550, 10, { mass: 1 });
+
     // Soccerball -- TODO add to server logic? make this better.
-    ball = this.matter.add.circle(100, 50, 32, 0);
+    // ball = this.matter.add.circle(100, 50, 32, 0);
     
     this.cursors = this.input.keyboard.createCursorKeys();
     this.leftKeyPressed = false;
@@ -114,7 +115,7 @@ function update() {
 }
 
 function displayPlayers(self, playerInfo, sprite) {
-    const player = self.add.sprite(playerInfo.x, playerInfo.y, sprite).setOrigin(0.5, 0.5).setDisplaySize(53, 40);
+    const player = self.matter.add.image(playerInfo.x, playerInfo.y, 'placeholder').setOrigin(0.5, 0.5).setDisplaySize(50, 50);
     if (playerInfo.team === 'blue') player.setTint(0x0000ff);
     else player.setTint(0xff0000);
     player.playerId = playerInfo.playerId;
