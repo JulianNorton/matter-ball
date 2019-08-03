@@ -7,11 +7,9 @@ var config = {
     physics: {
         default: 'matter',
         matter: {
+            wireframe: true,
             debug: true,
-            gravity: { y: .1 },
-            wireframes: true,
-            showAngleIndicator: true,
-            ignoreGravity: true,
+            ignoreGravity: true
         }
     },
     scene: {
@@ -60,20 +58,13 @@ function create() {
         Object.keys(players).forEach(function (id) {
             self.players.getChildren().forEach(function (player) {
                 if (players[id].playerId === player.playerId) {
-                    player.setRotation(players[id].rotation);
                     player.setPosition(players[id].x, players[id].y);
                 }
             });
         });
     });
     
-    this.matter.world.setBounds().disableGravity();
-    // Create an obstacle
-    this.matter.add.rectangle(100, 550, 300, 300, { isStatic: false, mass: 1 });
-    this.matter.add.circle(100, 550, 10, { mass: 1 });
-
-    // Soccerball -- TODO add to server logic? make this better.
-    // ball = this.matter.add.circle(100, 50, 32, 0);
+    this.matter.world.setBounds().disableGravity().update60Hz();
     
     this.cursors = this.input.keyboard.createCursorKeys();
     this.leftKeyPressed = false;

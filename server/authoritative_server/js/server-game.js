@@ -8,11 +8,9 @@ const config = {
     physics: {
         default: 'matter',
         matter: {
+            wireframe: true,
             debug: true,
-            gravity: { y: .1 },
-            wireframes: true,
-            showAngleIndicator: true,
-            ignoreGravity: true,
+            ignoreGravity: true
         }
     },
     scene: {
@@ -30,12 +28,10 @@ function preload() {
 function create() {
     const self = this;
     this.players = this.add.group();
-      
     io.on('connection', function (socket) {
-        console.log('a user connected');
+        // console.log('a user connected');
         // create a new player and add it to our players object
         players[socket.id] = {
-            rotation: 0,
             x: Math.floor(Math.random() * 700) + 50,
             y: Math.floor(Math.random() * 500) + 50,
             playerId: socket.id,
@@ -49,6 +45,7 @@ function create() {
         };
         // add player to server
         addPlayer(self, players[socket.id]);
+        
         // send the players object to the new player
         socket.emit('currentPlayers', players);
         // update all other players of the new player
@@ -71,42 +68,27 @@ function create() {
         });
     });
 
-    this.matter.world.setBounds().disableGravity();
-    // Create an obstacle
-    this.matter.add.rectangle(100, 550, 300, 300, { isStatic: false, mass: 1 });
-    this.matter.add.circle(100, 550, 10, { mass: 1 });
-    
-    // this.matter.add.circle(100, 100, 50, 10, { mass: 1 });
-    // Soccerball -- TODO -- unify this
-    // this.matter.add.circle(100, 100, 50, 10, { mass: 1 });
-    // var ball = self.matter.add.circle(100, 100, 20, 100)
-    // this.matter.setMass(ball, .2);
-    // ball.set(ball, mass, 1 )
-    // this.matter.ball.setMass(20)
+    this.matter.world.setBounds().disableGravity().update60Hz();
+
 }
 
 function update() {
     this.players.getChildren().forEach((player) => {
         const input = players[player.playerId].input;
         if (input.left) {
-            player.thrustLeft(.01);
+            player.setVelocityX(-5);
         } else if (input.right) {
-            player.thrustRight(.01);
-        } else {
-            player.setAngularVelocity(0);
+            player.setVelocityX(5);
         }
         
         if (input.up) {
-            player.thrust(.01);
+            player.setVelocityY(-5);
         } else if (input.down) {
-                player.thrustBack(.01);
-        } else {
-            // pass
+            player.setVelocityY(5);
         }
-        
+
         players[player.playerId].x = player.x;
         players[player.playerId].y = player.y;
-        players[player.playerId].rotation = player.rotation;
     });
     io.emit('playerUpdates', players);
 }
@@ -125,10 +107,9 @@ function handlePlayerInput(self, playerId, input) {
 
 function addPlayer(self, playerInfo) {
     const player = self.matter.add.image(playerInfo.x, playerInfo.y, 'placeholder').setOrigin(0.5, 0.5).setDisplaySize(50, 50);
-    player.setFixedRotation();
-    player.setAngle(270);
-    player.setMass(1);
-    player.setFrictionAir(.2);
+    player.setFixedRotation(true);
+    player.setMass(2.5);
+    player.setFrictionAir(.22);
     
     player.playerId = playerInfo.playerId;
     self.players.add(player);
