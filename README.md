@@ -1,7 +1,7 @@
 # matter-ball
  Testing physics based ball game
  
- # Demo: https://testing-matter-ball.herokuapp.com
+ # Demo: [https://testing-matter-ball.herokuapp.com](https://testing-matter-ball.herokuapp.com)
 
 ## Set up
 
