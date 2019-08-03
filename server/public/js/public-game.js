@@ -28,9 +28,15 @@ function preload() {
 
 function create() {
     var self = this;
+
     this.socket = io();
     this.players = this.add.group();
     
+    // add.bodies.circle(200, 200, 30, 2);
+    var ball = self.matter.add.circle(500, 500, 30, 2);
+
+    console.log(ball)
+
     this.socket.on('currentPlayers', function (players) {
         Object.keys(players).forEach(function (id) {
             if (players[id].playerId === self.socket.id) {
@@ -71,9 +77,11 @@ function create() {
     this.rightKeyPressed = false;
     this.upKeyPressed = false;
     this.downKeyPressed = false;
+    console.log(ball)
 }
 
 function update() {
+
     const left = this.leftKeyPressed;
     const right = this.rightKeyPressed;
     const up = this.upKeyPressed;
