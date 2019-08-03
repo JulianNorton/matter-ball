@@ -28,6 +28,9 @@ function preload() {
 function create() {
     const self = this;
     this.players = this.add.group();
+
+    var ball = self.matter.add.circle(500, 500, 30, 2);
+
     io.on('connection', function (socket) {
         // console.log('a user connected');
         // create a new player and add it to our players object
